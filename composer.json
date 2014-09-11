@@ -1,0 +1,28 @@
+{
+    "name": "rawphp/raw-migrator",
+    "type": "library",
+    "description": "RawMigrator provides database migration service for RawPHP and other applications.",
+    "keywords": [ "database", "migration" ],
+    "homepage": "http://rawphp.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tom Kaczocha",
+            "email": "tom@rawphp.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "phpunit/phpunit": "4.2.5"
+    },
+    "require-dev": {
+        "rawphp/raw-base": "dev-master",
+        "rawphp/raw-database": "dev-master",
+        "squizlabs/php_codesniffer": "1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "lib/"
+        ]
+    }
+}
