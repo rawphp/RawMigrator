@@ -24,7 +24,7 @@
  * SOFTWARE.
  * 
  * @category  PHP
- * @package   RawPHP/RawDatabase
+ * @package   RawPHP/RawMigrator
  * @author    Tom Kaczohca <tom@rawphp.org>
  * @copyright 2014 Tom Kaczocha
  * @license   http://rawphp.org/license.txt MIT
