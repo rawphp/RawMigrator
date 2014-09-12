@@ -36,6 +36,7 @@ Alternatively, just copy the contents of the RawMigrator folder into somewhere t
 <?php
 
 use RawPHP\RawMigrator\Migrator;
+use RawPHP\RawDatabase\Database;
 
 // configuration
 $config = array(
