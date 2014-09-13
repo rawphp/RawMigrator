@@ -51,9 +51,14 @@ $config = array(
 // the migrator expects an instance of RawPHP\RawDatabase\IDatabase class as its first parameter.
 // You can use your own database implementation as long as you implement the IDatabase interface.
 
-$database = new Database( $dbConfig );
+$database = new Database( );
+$database->init( $dbConfig );
 
-$migrator = new Migrator( $database, $config );
+// create new instance
+$migrator = new Migrator( $database );
+
+// initialise migrator
+$migrator->init( $config );
 
 // create a new migration
 $migrator->migrationClass = 'CreateUsersTable';
