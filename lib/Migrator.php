@@ -38,7 +38,7 @@ namespace RawPHP\RawMigrator;
 use RawPHP\RawBase\Component;
 use RawPHP\RawMigrator\IMigrator;
 use RawPHP\RawDatabase\IDatabase;
-use RawPHP\RawBase\Exceptions\RawException;
+use RawPHP\RawLog\MigrationException;
 
 /**
  * This class handles database migration.
@@ -71,15 +71,15 @@ class Migrator extends Component implements IMigrator
      * Constructs a new migrator instance.
      * 
      * @param IDatabase $database the database instance
-     * @param array     $config   configuration array
      */
-    public function __construct( IDatabase $database, $config = array() )
+    public function __construct( IDatabase $database )
     {
-        parent::__construct( $config );
+        if ( NULL === $database )
+        {
+            throw new MigrationException( 'IDatabase instance cannot be NULL' );
+        }
         
         $this->db = $database;
-        
-        $this->init( $config );
     }
     
     /**
@@ -87,10 +87,14 @@ class Migrator extends Component implements IMigrator
      * 
      * @param array $config configuration array
      * 
+     * @action ON_INIT_ACTION
+     * 
      * @throws \InvalidArgumentException if a configuration is missing
      */
     public function init( $config )
     {
+        parent::init( $config );
+        
         if ( !isset( $config[ 'migration_path' ] ) )
         {
             throw new \InvalidArgumentException( 'Missing migration_path parameter' );
@@ -137,14 +141,20 @@ class Migrator extends Component implements IMigrator
                     break;
             }
         }
+        
+        $this->doAction( self::ON_INIT_ACTION );
     }
     
     /**
      * Creates a new migration class file.
      * 
+     * @filter ON_CREATE_MIGRATION_FILTER
+     * 
+     * @action ON_CREATE_MIGRATION_ACTION
+     * 
      * @return bool TRUE on success, FALSE on failure
      * 
-     * @throws RawException if configuration is missing
+     * @throws MigrationException if configuration is missing
      */
     public function createMigration( )
     {
@@ -158,16 +168,18 @@ class Migrator extends Component implements IMigrator
         
         $path = $this->migrationPath . $className . '.php';
         
-        if ( file_exists( $path ) && $this->overwrite )
+        $template = $this->filter( self::ON_CREATE_MIGRATION_FILTER, $template );
+        
+        if ( ( file_exists( $path ) && $this->overwrite ) || !file_exists( $path ) )
         {
-            return file_put_contents( $path, $template );
+            $result = file_put_contents( $path, $template );
         }
         elseif ( file_exists( $path ) )
         {
-            throw new RawException( 'Migration file already exists' );
+            throw new MigrationException( 'Migration file already exists' );
         }
         
-        $result = file_put_contents( $path, $template );
+        $this->doAction( self::ON_CREATE_MIGRATION_ACTION );
         
         return FALSE !== $result;
     }
@@ -176,6 +188,8 @@ class Migrator extends Component implements IMigrator
      * Creates the migration template file code.
      * 
      * @param string $name new migration class name
+     * 
+     * @filter ON_GET_MIGRATION_TEMPLATE_FILTER
      * 
      * @return string class template
      */
@@ -188,53 +202,64 @@ class Migrator extends Component implements IMigrator
             $template .= 'namespace ' . $this->migrationNamespace . ';' . PHP_EOL . PHP_EOL;
         }
         
-        $template .= 'use RawPHP\RawMigrator;' . PHP_EOL . PHP_EOL;
+        $template .= 'use RawPHP\RawMigrator\Migration;' . PHP_EOL;
+        $template .= 'use RawPHP\RawDatabase\IDatabase;' . PHP_EOL . PHP_EOL;
         
         $template .= 'class ' . $name . ' extends Migration' . PHP_EOL;
         $template .= '{' . PHP_EOL;
-
+        
         $template .= '    /**' . PHP_EOL;
         $template .= '     * Implement database changes here.' . PHP_EOL;
+        $template .= '     * ' . PHP_EOL;
+        $template .= '     * @param IDatabase $db database instance' . PHP_EOL;
         $template .= '     */' . PHP_EOL;
-        $template .= '    public function migrateUp()' . PHP_EOL;
+        $template .= '    public function migrateUp( IDatabase $db )' . PHP_EOL;
         $template .= '    {' . PHP_EOL;
         $template .= '        ' . PHP_EOL;
         $template .= '    }' . PHP_EOL . PHP_EOL;
-
+        
         $template .= '    /**' . PHP_EOL;
         $template .= '     * Implement reverting changes here.' . PHP_EOL;
+        $template .= '     * ' . PHP_EOL;
+        $template .= '     * @param IDatabase $db database instance' . PHP_EOL;
         $template .= '     */' . PHP_EOL;
-        $template .= '    public function migrateDown()' . PHP_EOL;
+        $template .= '    public function migrateDown( IDatabase $db )' . PHP_EOL;
         $template .= '    {' . PHP_EOL;
         $template .= '        ' . PHP_EOL;
         $template .= '    }' . PHP_EOL . PHP_EOL;
-
+        
         $template .= '    /**' . PHP_EOL;
         $template .= '     * Alternatively to <code>migrateUp()</code>, this method will' . PHP_EOL;
         $template .= '     * use transactions (if available) to process the database changes.' .
                           PHP_EOL;
+        $template .= '     * ' . PHP_EOL;
+        $template .= '     * @param IDatabase $db database instance' . PHP_EOL;
         $template .= '     */' . PHP_EOL;
-        $template .= '    public function safeMigrateUp()' . PHP_EOL;
+        $template .= '    public function safeMigrateUp( IDatabase $db )' . PHP_EOL;
         $template .= '    {' . PHP_EOL;
         $template .= '        ' . PHP_EOL;
         $template .= '    }' . PHP_EOL . PHP_EOL;
-
+        
         $template .= '    /**' . PHP_EOL;
         $template .= '     * Alternatively to <code>migrateDown()</code>, this method will' . 
                           PHP_EOL;
         $template .= '     * use transactions (if available) to revert changes.' . PHP_EOL;
+        $template .= '     * ' . PHP_EOL;
+        $template .= '     * @param IDatabase $db database instance' . PHP_EOL;
         $template .= '     */' . PHP_EOL;
-        $template .= '    public function safeMigrateDown()' . PHP_EOL;
+        $template .= '    public function safeMigrateDown( IDatabase $db )' . PHP_EOL;
         $template .= '    {' . PHP_EOL;
         $template .= '        ' . PHP_EOL;
         $template .= '    }' . PHP_EOL;
         $template .= '}';
-
-        return $template;
+        
+        return $this->filter( self::ON_GET_MIGRATION_TEMPLATE_FILTER, $template, $name );
     }
     
     /**
      * Creates the migration database table if it doesn't exist.
+     * 
+     * @action ON_CREATE_MIGRATION_TABLE_ACTION
      * 
      * @return bool TRUE on success, FALSE on failure
      * 
@@ -247,6 +272,8 @@ class Migrator extends Component implements IMigrator
             throw new RawException( 'Migration table name must be set' );
         }
         
+        $result = NULL;
+        
         $table = array(
             'migration_id'           => 'INTEGER(11) PRIMARY KEY AUTO_INCREMENT NOT NULL',
             'migration_name'         => 'VARCHAR(128) NOT NULL',
@@ -255,14 +282,18 @@ class Migrator extends Component implements IMigrator
         
         if ( TRUE === $this->db->createTable( $this->migrationTable, $table ) )
         {
-            return $this->db->addIndex( $this->migrationTable, array( 'migration_name' ) );
+            $result = $this->db->addIndex( $this->migrationTable, array( 'migration_name' ) );
         }
         
-        return FALSE;
+        $this->doAction( self::ON_CREATE_MIGRATION_TABLE_ACTION );
+        
+        return $result;
     }
     
     /**
      * Returns a list of migration files.
+     * 
+     * @filter ON_GET_MIGRATIONS_FILTER
      * 
      * @return array list of available migrations
      */
@@ -282,11 +313,13 @@ class Migrator extends Component implements IMigrator
         
         closedir( $dir );
         
-        return $migrations;
+        return $this->filter( self::ON_GET_MIGRATIONS_FILTER, $migrations );
     }
     
     /**
      * Returns a list of new migrations.
+     * 
+     * @filter ON_GET_NEW_MIGRATIONS_FILTER
      * 
      * @return array list of migrations
      */
@@ -328,11 +361,13 @@ class Migrator extends Component implements IMigrator
             }
         }
         
-        return $list;
+        return $this->filter( self::ON_GET_NEW_MIGRATIONS_FILTER, $list );
     }
     
     /**
      * Returns a list of applied migrations.
+     * 
+     * @filter ON_GET_APPLIED_MIGRATIONS_FILTER
      * 
      * @return array list of applied migrations
      */
@@ -351,13 +386,15 @@ class Migrator extends Component implements IMigrator
         
         $list = array_reverse( $list );
         
-        return $list;
+        return $this->filter( self::ON_GET_APPLIED_MIGRATIONS_FILTER, $list );
     }
     
     /**
      * Runs the UP migration.
      * 
-     * @throws RawException on failed transaction
+     * @action ON_MIGRATE_UP_ACTION
+     * 
+     * @throws MigrationException on failed transaction
      */
     public function migrateUp( )
     {
@@ -384,7 +421,7 @@ class Migrator extends Component implements IMigrator
                 }
                 else
                 {
-                    throw new RawException( 'Migration class: ' . $class . ' - not found' );
+                    throw new MigrationException( 'Migration class: ' . $class . ' - not found' );
                 }
             }
             
@@ -435,6 +472,8 @@ class Migrator extends Component implements IMigrator
             
             if ( $this->levels === $i )
             {
+                $this->doAction( self::ON_MIGRATE_UP_ACTION );
+                
                 return;
             }
         }
@@ -443,7 +482,9 @@ class Migrator extends Component implements IMigrator
     /**
      * Runs the DOWN migration.
      * 
-     * @throws RawException on failed transaction
+     * @action ON_MIGRATE_DOWN_ACTION
+     * 
+     * @throws MigrationException on failed transaction
      */
     public function migrateDown( )
     {
@@ -472,7 +513,7 @@ class Migrator extends Component implements IMigrator
                 // delete migration from table
                 if ( FALSE === $this->_deleteMigrationRecord( $class ) )
                 {
-                    throw new RawException( 'Failed to delete migration record: ' . $class );
+                    throw new MigrationException( 'Failed to delete migration record: ' . $class );
                 }
             }
             else // run safeMigrateDown
@@ -503,7 +544,7 @@ class Migrator extends Component implements IMigrator
                         // commit transaction
                         $this->db->commitTransaction( );
                     }
-                    catch ( Exception $e )
+                    catch ( \Exception $e )
                     {
                         // rollback transaction
                         $this->db->rollbackTransaction( );
@@ -517,6 +558,8 @@ class Migrator extends Component implements IMigrator
             
             if ( $this->levels === $i )
             {
+                $this->doAction( self::ON_MIGRATE_DOWN_ACTION );
+                
                 return;
             }
         }
@@ -584,4 +627,16 @@ class Migrator extends Component implements IMigrator
         
         return $result === 1;
     }
+    
+    const ON_INIT_ACTION                    = 'on_init_action';
+    const ON_CREATE_MIGRATION_ACTION        = 'on_create_migration_action';
+    const ON_CREATE_MIGRATION_TABLE_ACTION  = 'on_create_migration_table';
+    const ON_MIGRATE_UP_ACTION              = 'on_migrate_up_action';
+    const ON_MIGRATE_DOWN_ACTION            = 'on_migrate_down_action';
+    
+    const ON_CREATE_MIGRATION_FILTER        = 'on_create_migration_filter';
+    const ON_GET_MIGRATION_TEMPLATE_FILTER  = 'on_get_migration_template_filter';
+    const ON_GET_MIGRATIONS_FILTER          = 'on_get_migrations_filter';
+    const ON_GET_NEW_MIGRATIONS_FILTER      = 'on_get_new_migrations_filter';
+    const ON_GET_APPLIED_MIGRATIONS_FILTER  = 'on_get_applied_migrations_filter';
 }

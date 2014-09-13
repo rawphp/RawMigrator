@@ -36,6 +36,7 @@
 namespace RawPHP\RawMigrator;
 
 use RawPHP\RawBase\Models\Model;
+use RawPHP\RawDatabase\IDatabase;
 
 /**
  * Base class for database migrations.
@@ -51,31 +52,39 @@ class Migration extends Model
 {
     /**
      * Implement database changes here.
+     * 
+     * @param IDatabase $db database instance
      */
-    public function migrateUp()
+    public function migrateUp( IDatabase $db )
     {
     }
     
     /**
      * Implement reverting changes here.
+     * 
+     * @param IDatabase $db database instance
      */
-    public function migrateDown()
+    public function migrateDown( IDatabase $db )
     {
     }
     
     /**
      * Alternatively to <code>migrateUp()</code>, this method will use
      * Transactions ( if available ) to process the database changes.
+     * 
+     * @param IDatabase $db database instance
      */
-    public function safeMigrateUp()
+    public function safeMigrateUp( IDatabase $db )
     {
     }
     
     /**
      * Alternatively to <code>migrateDown()</code>, this method will use
      * Transactions ( if available ) to revert changes.
+     * 
+     * @param IDatabase $db database instance
      */
-    public function safeMigrateDown()
+    public function safeMigrateDown( IDatabase $db )
     {
     }
 }

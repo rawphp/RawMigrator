@@ -23,6 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * PHP version 5.4
+ * 
  * @category  PHP
  * @package   RawPHP/RawMigrator
  * @author    Tom Kaczohca <tom@rawphp.org>
@@ -31,26 +33,20 @@
  * @link      http://rawphp.org/
  */
 
-use RawPHP\RawDatabase\Database;
+namespace RawPHP\RawLog;
 
-defined( 'DS' )                  || define( 'DS', DIRECTORY_SEPARATOR );
-defined( 'SUPPORT_DIR' )         || define( 'SUPPORT_DIR', dirname( __FILE__ ) . DS . '_support' . DS );
-defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR . 'migrations' . DS );
+use RawPHP\RawBase\Exceptions\RawException;
 
-require_once dirname( dirname( __FILE__ ) ) . DS . 'vendor' . DS . 'autoload.php';
-
-$config = include_once SUPPORT_DIR . 'config.php';
-        
-$db = new Database( );
-$db->init( $config[ 'test_db' ] );
-
-// load migration files
-foreach ( scandir( TEST_MIGRATIONS_DIR ) as $file )
+/**
+ * Exception thrown when there are problems with the migration.
+ * 
+ * @category  PHP
+ * @package   RawPHP/RawMigrator
+ * @author    Tom Kaczocha <tom@rawphp.org>
+ * @copyright 2014 Tom Kaczocha
+ * @license   http://rawphp.org/license.txt MIT
+ * @link      http://rawphp.org/
+ */
+class MigrationException extends RawException
 {
-    if ( '.' !== $file && '..' !== $file )
-    {
-        include_once TEST_MIGRATIONS_DIR . $file;
-    }
 }
-
-echo PHP_EOL . PHP_EOL . '************* BOOTSTRAP ********************' . PHP_EOL . PHP_EOL;

@@ -72,20 +72,17 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        global $db, $config;
+        global $db;
         
         parent::setUpBeforeClass();
         
         self::$db = $db;
         
-        self::$migrator = new Migrator( self::$db, $config[ 'migration' ] );
-        
-        self::$migrator->migrationPath = TEST_MIGRATIONS_DIR;
-        
         self::$db->dropTable( 'migrations' );
         self::$db->dropTable( 'migrate_1' );
         self::$db->dropTable( 'migrate_2' );
         self::$db->dropTable( 'migrate_3' );
+        
     }
     
     /**
@@ -93,7 +90,13 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        parent::setUp();
+        global $config;
+        
+        self::$migrator = new Migrator( self::$db );
+        
+        self::$migrator->init( $config[ 'migration' ] );
+        
+        self::$migrator->migrationPath = TEST_MIGRATIONS_DIR;
     }
     
     /**

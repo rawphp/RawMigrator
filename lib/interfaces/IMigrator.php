@@ -48,11 +48,26 @@ namespace RawPHP\RawMigrator;
 interface IMigrator
 {
     /**
+     * Initialises the migrator.
+     * 
+     * @param array $config configuration array
+     * 
+     * @action ON_INIT_ACTION
+     * 
+     * @throws \InvalidArgumentException if a configuration is missing
+     */
+    public function init( $config );
+    
+    /**
      * Creates a new migration class file.
+     * 
+     * @filter ON_CREATE_MIGRATION_FILTER
+     * 
+     * @action ON_CREATE_MIGRATION_ACTION
      * 
      * @return bool TRUE on success, FALSE on failure
      * 
-     * @throws RawException if configuration is missing
+     * @throws MigrationException if configuration is missing
      */
     public function createMigration( );
     
@@ -61,12 +76,16 @@ interface IMigrator
      * 
      * @param string $name new migration class name
      * 
+     * @filter ON_GET_MIGRATION_TEMPLATE_FILTER
+     * 
      * @return string class template
      */
     public function getMigrationTemplate( $name );
     
     /**
      * Creates the migration database table if it doesn't exist.
+     * 
+     * @action ON_CREATE_MIGRATION_TABLE_ACTION
      * 
      * @return bool TRUE on success, FALSE on failure
      * 
@@ -77,12 +96,16 @@ interface IMigrator
     /**
      * Returns a list of migration files.
      * 
+     * @filter ON_GET_MIGRATIONS_FILTER
+     * 
      * @return array list of available migrations
      */
     public function getMigrations( );
     
     /**
      * Returns a list of new migrations.
+     * 
+     * @filter ON_GET_NEW_MIGRATIONS_FILTER
      * 
      * @return array list of migrations
      */
@@ -91,6 +114,8 @@ interface IMigrator
     /**
      * Returns a list of applied migrations.
      * 
+     * @filter ON_GET_APPLIED_MIGRATIONS_FILTER
+     * 
      * @return array list of applied migrations
      */
     public function getAppliedMigrations( );
@@ -98,14 +123,18 @@ interface IMigrator
     /**
      * Runs the UP migration.
      * 
-     * @throws RawException on failed transaction
+     * @action ON_MIGRATE_UP_ACTION
+     * 
+     * @throws MigrationException on failed transaction
      */
     public function migrateUp( );
     
     /**
      * Runs the DOWN migration.
      * 
-     * @throws RawException on failed transaction
+     * @action ON_MIGRATE_DOWN_ACTION
+     * 
+     * @throws MigrationException on failed transaction
      */
     public function migrateDown( );
 }
