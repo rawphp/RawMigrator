@@ -11,12 +11,12 @@
 ### Composer
 RawMigrator is available via [Composer/Packagist](https://packagist.org/packages/rawphp/raw-router).
 
-Add `"rawphp/raw-migrator": "dev-master"` to the require block in your composer.json and then run `composer install`.
+Add `"rawphp/raw-migrator": "0.1.1"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
         "require": {
-            "rawphp/raw-migrator": "dev-master"
+            "rawphp/raw-migrator": "0.1.1"
         }
 }
 ```
@@ -24,7 +24,7 @@ Add `"rawphp/raw-migrator": "dev-master"` to the require block in your composer.
 You can also simply run the following from the command line:
 
 ```sh
-composer require rawphp/raw-migrator "dev-master"
+composer require rawphp/raw-migrator "0.1.1"
 ```
 
 ### Tarball

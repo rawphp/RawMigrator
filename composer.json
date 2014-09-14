@@ -1,7 +1,7 @@
 {
     "name": "rawphp/raw-migrator",
     "type": "library",
-    "description": "RawMigrator provides database migration service for RawPHP and other applications.",
+    "description": "RawMigrator provides database migration service for RawPHP framework and other applications.",
     "keywords": [ "database", "migration" ],
     "homepage": "http://rawphp.org",
     "license": "MIT",
@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.4.0",
         "rawphp/raw-base": "0.1.0",
-        "rawphp/raw-database": "0.1.0"
+        "rawphp/raw-database": "0.1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.5",
