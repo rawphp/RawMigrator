@@ -26,7 +26,7 @@
  * PHP version 5.4
  * 
  * @category  PHP
- * @package   RawPHP/RawMigrator/Migrations
+ * @package   RawPHP/RawMigrator/Migrations/Tests
  * @author    Tom Kaczohca <tom@rawphp.org>
  * @copyright 2014 Tom Kaczocha
  * @license   http://rawphp.org/license.txt MIT
@@ -42,7 +42,7 @@ use RawPHP\RawDatabase\IDatabase;
  * Migration test.
  * 
  * @category  PHP
- * @package   RawPHP/RawMigrator/Tests
+ * @package   RawPHP/RawMigrator/Migrations/Tests
  * @author    Tom Kaczohca <tom@rawphp.org>
  * @copyright 2014 Tom Kaczocha
  * @license   http://rawphp.org/license.txt MIT
