@@ -224,6 +224,7 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_2' ) );
+        $this->assertFalse( self::$db->tableExists( 'migrate_3' ) );
     }
     
     /**

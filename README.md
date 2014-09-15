@@ -1,5 +1,7 @@
 # RawMigrator - A Simple Database Migration Service for PHP Applications
 
+[![Build Status](https://travis-ci.org/rawphp/RawMigrator.svg?branch=master)](https://travis-ci.org/rawphp/RawMigrator)
+
 ## Package Features
 - Simple to use migrator
 - Create new migration classes
