@@ -229,6 +229,9 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         
         $this->migrator->migrateUp( 1 );
         
+        echo 'After Migrating Up 1 Level: ' . PHP_EOL;
+        Database::arrayDump( $this->_getMigrationTableContent( ) );
+        
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_2' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_3' ) );
@@ -247,11 +250,17 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         
         $this->migrator->migrateUp( Migrator::MIGRATE_ALL );
         
+        echo 'After Migrating Up ALL Levels: ' . PHP_EOL;
+        Database::arrayDump( $this->_getMigrationTableContent( ) );
+        
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_3' ) );
         
+        echo 'After Migrating Down 1 Level: ' . PHP_EOL;
         $this->migrator->migrateDown( 1 );
+        
+        Database::arrayDump( $this->_getMigrationTableContent( ) );
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
@@ -279,5 +288,17 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
                 unlink( TEST_MIGRATIONS_DIR . $file );
             }
         }
+    }
+    
+    /**
+     * Helper method to get migration table content.
+     * 
+     * @return array migration table results
+     */
+    private function _getMigrationTableContent( )
+    {
+        $query = "SELECT * FROM " . $this->migrator->migrationTable;
+        
+        return self::$db->query( $query );
     }
 }
