@@ -392,12 +392,19 @@ class Migrator extends Component implements IMigrator
     /**
      * Runs the UP migration.
      * 
+     * @param mixed $levels optional migration levels size
+     * 
      * @action ON_MIGRATE_UP_ACTION
      * 
      * @throws MigrationException on failed transaction
      */
-    public function migrateUp( )
+    public function migrateUp( $levels = NULL )
     {
+        if ( NULL !== $levels )
+        {
+            $this->levels = $levels;
+        }
+        
         $newMigrations = $this->getNewMigrations( );
         
         $i = 0;
@@ -482,12 +489,19 @@ class Migrator extends Component implements IMigrator
     /**
      * Runs the DOWN migration.
      * 
+     * @param mixed $levels optional migration levels size
+     * 
      * @action ON_MIGRATE_DOWN_ACTION
      * 
      * @throws MigrationException on failed transaction
      */
-    public function migrateDown( )
+    public function migrateDown( $levels = NULL )
     {
+        if ( NULL !== $levels )
+        {
+            $this->levels = $levels;
+        }
+        
         $migrations = $this->getAppliedMigrations( );
         
         $i = 0;

@@ -90,6 +90,9 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 
 ## Changelog
 
+#### 16-09-2014
+- Added optional $levels parameter to `migrateUp( )` and `migrateDown( )` in Migrator.
+
 #### 13-09-2014
 - Implemented the hook system
 - Moved component configuration from constructor to `init()`

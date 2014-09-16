@@ -123,18 +123,22 @@ interface IMigrator
     /**
      * Runs the UP migration.
      * 
+     * @param mixed $levels optional migration levels size
+     * 
      * @action ON_MIGRATE_UP_ACTION
      * 
      * @throws MigrationException on failed transaction
      */
-    public function migrateUp( );
+    public function migrateUp( $levels = NULL );
     
     /**
      * Runs the DOWN migration.
+     * 
+     * @param mixed $levels optional migration levels size
      * 
      * @action ON_MIGRATE_DOWN_ACTION
      * 
      * @throws MigrationException on failed transaction
      */
-    public function migrateDown( );
+    public function migrateDown( $levels = NULL );
 }
