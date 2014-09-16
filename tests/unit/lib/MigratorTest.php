@@ -227,8 +227,7 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse( self::$db->tableExists( 'migrate_2' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_3' ) );
         
-        $this->migrator->levels = 1;
-        $this->migrator->migrateUp( );
+        $this->migrator->migrateUp( 1 );
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_2' ) );
@@ -246,16 +245,13 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse( self::$db->tableExists( 'migrate_2' ) );
         $this->assertFalse( self::$db->tableExists( 'migrate_3' ) );
         
-        $this->migrator->levels = Migrator::MIGRATE_ALL;
-        
-        $this->migrator->migrateUp( );
+        $this->migrator->migrateUp( Migrator::MIGRATE_ALL );
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_3' ) );
         
-        $this->migrator->levels = 1;
-        $this->migrator->migrateDown( );
+        $this->migrator->migrateDown( 1 );
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
