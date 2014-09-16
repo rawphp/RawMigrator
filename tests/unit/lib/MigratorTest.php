@@ -84,7 +84,6 @@ class MigratorTest extends \PHPUnit_Framework_TestCase
         self::$db->dropTable( 'migrate_3' );
         
     }
-    
     /**
      * Setup before each test.
      */

@@ -313,6 +313,8 @@ class Migrator extends Component implements IMigrator
         
         closedir( $dir );
         
+        usort( $migrations, array( $this, '_sortMigrations' ) );
+        
         return $this->filter( self::ON_GET_MIGRATIONS_FILTER, $migrations );
     }
     
@@ -640,6 +642,21 @@ class Migrator extends Component implements IMigrator
         $this->db->unlockTables();
         
         return $result === 1;
+    }
+    
+    /**
+     * Sorting method callback.
+     * 
+     * @param string $a first string
+     * @param string $b second string
+     * 
+     * @return int an integer less than, equal to, or greater than zero if 
+     *             the first argument is considered to be respectively less 
+     *             than, equal to, or greater than the second.
+     */
+    private function _sortMigrations( $a, $b )
+    {
+        return strcmp( $a, $b );
     }
     
     const ON_INIT_ACTION                    = 'on_init_action';
