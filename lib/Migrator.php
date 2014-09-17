@@ -91,7 +91,7 @@ class Migrator extends Component implements IMigrator
      * 
      * @throws \InvalidArgumentException if a configuration is missing
      */
-    public function init( $config )
+    public function init( $config = NULL )
     {
         parent::init( $config );
         
