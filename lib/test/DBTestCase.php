@@ -26,65 +26,91 @@
  * PHP version 5.4
  * 
  * @category  PHP
- * @package   RawPHP/RawMigrator
+ * @package   RawPHP/RawMigrator/Test
  * @author    Tom Kaczohca <tom@rawphp.org>
  * @copyright 2014 Tom Kaczocha
  * @license   http://rawphp.org/license.txt MIT
  * @link      http://rawphp.org/
  */
 
-namespace RawPHP\RawMigrator;
+namespace RawPHP\RawMigrator\Test;
 
-use RawPHP\RawBase\Models\Model;
 use RawPHP\RawDatabase\IDatabase;
+use RawPHP\RawMigrator\Migrator;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Base class for database migrations.
+ * Test Case used with database migration testing.
  * 
  * @category  PHP
- * @package   RawPHP/RawMigrator
+ * @package   RawPHP/RawMigrator/Test
  * @author    Tom Kaczohca <tom@rawphp.org>
  * @copyright 2014 Tom Kaczocha
  * @license   http://rawphp.org/license.txt MIT
  * @link      http://rawphp.org/
  */
-class Migration extends Model
+class DBTestCase extends PHPUnit_Framework_TestCase
 {
     /**
-     * Implement database changes here.
-     * 
-     * @param IDatabase $db database instance
+     * @var IDatabase
      */
-    public function migrateUp( IDatabase $db )
+    public static $db           = NULL;
+    /**
+     * @var Migrator
+     */
+    public static $migrator     = NULL;
+    
+    /**
+     * Setup done before test suite run.
+     * 
+     * @global array     $config configuration array
+     * @global IDatabase $db     the database instance
+     */
+    public static function setUpBeforeClass()
     {
+        global $config, $db;
+        self::$db = $db;
+        
+        parent::setUpBeforeClass();
+        
+        self::$migrator = new Migrator( $db );
+        self::$migrator->init( $config[ 'migration' ] );
+        self::$migrator->verbose = TRUE;
     }
     
     /**
-     * Implement reverting changes here.
-     * 
-     * @param IDatabase $db database instance
+     * Setup for a test.
      */
-    public function migrateDown( IDatabase $db )
+    protected function setUp()
     {
+        parent::setUp( );
+        
+        self::createDatabase( );
     }
     
     /**
-     * Alternatively to <code>migrateUp()</code>, this method will use
-     * Transactions ( if available ) to process the database changes.
-     * 
-     * @param IDatabase $db database instance
+     * Cleanup after a test
      */
-    public function safeMigrateUp( IDatabase $db )
+    protected function tearDown()
     {
+        parent::tearDown( );
+        
+        self::dropDatabase( );
     }
     
     /**
-     * Alternatively to <code>migrateDown()</code>, this method will use
-     * Transactions ( if available ) to revert changes.
-     * 
-     * @param IDatabase $db database instance
+     * Creates the database by migrating UP.
      */
-    public function safeMigrateDown( IDatabase $db )
+    protected static function createDatabase( )
     {
+        self::$migrator->migrateUp( Migrator::MIGRATE_ALL );
+    }
+    
+    /**
+     * Deletes the database by migrating DOWN.
+     */
+    protected static function dropDatabase( )
+    {
+        self::$migrator->migrateDown( Migrator::MIGRATE_ALL );
     }
 }

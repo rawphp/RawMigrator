@@ -1,6 +1,6 @@
-# RawMigrator - A Simple Database Migration Service for PHP Applications
+# RawMigrator - A Simple Database Migration Service for PHP Applications [![Build Status](https://travis-ci.org/rawphp/RawMigrator.svg?branch=master)](https://travis-ci.org/rawphp/RawMigrator)
 
-[![Build Status](https://travis-ci.org/rawphp/RawMigrator.svg?branch=master)](https://travis-ci.org/rawphp/RawMigrator)
+[![Latest Stable Version](https://poser.pugx.org/rawphp/raw-migrator/v/stable.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![Total Downloads](https://poser.pugx.org/rawphp/raw-migrator/downloads.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![Latest Unstable Version](https://poser.pugx.org/rawphp/raw-migrator/v/unstable.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![License](https://poser.pugx.org/rawphp/raw-migrator/license.svg)](https://packagist.org/packages/rawphp/raw-migrator)
 
 ## Package Features
 - Simple to use migrator
@@ -89,6 +89,9 @@ This package is licensed under the [MIT](https://github.com/rawphp/RawMigrator/b
 Please submit bug reports, suggestions and pull requests to the [GitHub issue tracker](https://github.com/rawphp/RawMigrator/issues).
 
 ## Changelog
+
+#### 17-09-2014
+- Added DBTestCase class to be used with the migrator when testing database.
 
 #### 16-09-2014
 - Added optional $levels parameter to `migrateUp( )` and `migrateDown( )` in Migrator.
