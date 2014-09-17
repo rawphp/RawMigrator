@@ -33,6 +33,8 @@
  * @link      http://rawphp.org/
  */
 
+use RawPHP\RawMigrator\Migrator;
+
 $config = array();
 
 /*******************************************************************************
@@ -53,11 +55,12 @@ $config[ 'test_db' ][ 'db_host' ] = 'localhost';
  * These are the migration settings for the application.
  * 
  ******************************************************************************/
-$config[ 'migration' ][ 'migration_path' ]  = dirname( dirname( __FILE__ ) ) . DS . '_output' . DS;
-$config[ 'migration' ][ 'namespace' ]       = 'RawPHP\\RawMigrator\\Migrations';
-$config[ 'migration' ][ 'migration_table' ] = 'migrations';
-$config[ 'migration' ][ 'class_prefix' ]    = 'M_';
-$config[ 'migration' ][ 'overwrite' ]       = FALSE;
+$config[ 'migration' ][ 'migration_path' ]   = dirname( dirname( __FILE__ ) ) . DS . '_output' . DS;
+$config[ 'migration' ][ 'namespace' ]        = 'RawPHP\\RawMigrator\\Migrations';
+$config[ 'migration' ][ 'migration_table' ]  = 'migrations';
+$config[ 'migration' ][ 'class_name_style' ] = Migrator::STYLE_CAMEL_CASE; // Migrator::STYLE_UNDERSCORE
+$config[ 'migration' ][ 'class_prefix' ]     = 'M';
+$config[ 'migration' ][ 'overwrite' ]        = FALSE;
 
 
 return $config;

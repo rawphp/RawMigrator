@@ -48,9 +48,9 @@ use RawPHP\RawDatabase\IDatabase;
  * @license   http://rawphp.org/license.txt MIT
  * @link      http://rawphp.org/
  */
-class M_09634060_test_migration extends Migration
+class M09634217TestMigration extends Migration
 {
-    protected $table = 'migrate_1';
+    protected $table = 'migrate_2';
     
     /**
      * Create the test table.
@@ -70,7 +70,7 @@ class M_09634060_test_migration extends Migration
     /**
      * Drop the table.
      * 
-     * @param Database $db the IDatabase instance
+     * @param IDatabase $db the database instance
      */
     public function migrateDown( IDatabase $db )
     {

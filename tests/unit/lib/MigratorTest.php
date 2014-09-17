@@ -109,7 +109,7 @@ class MigratorTest extends DBTestCase
      */
     public function testCreateMigration()
     {
-        $migrationName = "test_migration_1";
+        $migrationName = "TestMigration1";
         
         self::$migrator->migrationClass = $migrationName;
         
@@ -250,6 +250,60 @@ class MigratorTest extends DBTestCase
     }
     
     /**
+     * Test creating a new migration with CamelCase style.
+     */
+    public function testCreateMigrationWithCamelCaseStyle()
+    {
+        $migrationName = "TestMigration1";
+        
+        self::$migrator->migrationClass = $migrationName;
+        self::$migrator->migrationClassStyle = Migrator::STYLE_CAMEL_CASE;
+        
+        $this->assertTrue( self::$migrator->createMigration( ) );
+        
+        $files = scandir( TEST_MIGRATIONS_DIR );
+        
+        foreach( $files as $file )
+        {
+            if ( FALSE !== strstr( $file, $migrationName ) )
+            {
+                $this->assertFalse( strpos( $file, '_' ) );
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Test creating a new migration with CamelCase style.
+     */
+    public function testCreateMigrationWithUnderscoreStyle()
+    {
+        // M_12345_test_migration1
+        $migrationName = "TestMigration1";
+        
+        self::$migrator->migrationClass = $migrationName;
+        self::$migrator->migrationClassStyle = Migrator::STYLE_UNDERSCORE;
+        
+        $this->assertTrue( self::$migrator->createMigration( ) );
+        
+        $files = scandir( TEST_MIGRATIONS_DIR );
+        
+        foreach( $files as $file )
+        {
+            if ( FALSE !== strstr( $file, $migrationName ) )
+            {
+                $this->assertTrue( 0 < strpos( $file, '_' ) );
+                
+                //$parts = preg_split('/(?=[A-Z])/', $file, -1, PREG_SPLIT_NO_EMPTY);
+                $parts = explode( '_', $file );
+                $this->assertEquals( 4, count( $parts ) );
+                
+                break;
+            }
+        }
+    }
+    
+    /**
      * Helper method to cleanup migratons.
      */
     private function _cleanupMigrations( )
@@ -258,9 +312,9 @@ class MigratorTest extends DBTestCase
         
         $existing = array(
             'empty',
-            'M_09634060_test_migration.php',
-            'M_09634217_test_migration.php',
-            'M_09634265_test_migration.php',
+            'M09634060TestMigration.php',
+            'M09634217TestMigration.php',
+            'M09634265TestMigration.php',
         );
         
         foreach( $files as $file )

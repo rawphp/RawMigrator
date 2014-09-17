@@ -42,11 +42,12 @@ use RawPHP\RawDatabase\Database;
 
 // configuration
 $config = array(
-    'migration_path'  => '/path/to/migrations/dir/',            // path to migrations directory
-    'namespace'       => 'RawPHP\\RawMigrator\\Migrations\\',   // migrations namespace, leave empty if namespaces not used
-    'migration_table' => 'migrations',                          // migrations table name
-    'class_prefix'    => 'M_',                                  // class prefix for creating new migrations
-    'overwrite'       => FALSE,                                 // Whether to overwrite existing migrations of the same name
+    'migration_path'   => '/path/to/migrations/dir/',            // path to migrations directory
+    'namespace'        => 'RawPHP\\RawMigrator\\Migrations\\',   // migrations namespace, leave empty if namespaces not used
+    'migration_table'  => 'migrations',                          // migrations table name
+    'class_name_style' => Migrator::STYLE_CAMEL_CASE;            // Migrator::STYLE_UNDERSCORE
+    'class_prefix'     => 'M',                                   // class prefix for creating new migrations
+    'overwrite'        => FALSE,                                 // Whether to overwrite existing migrations of the same name
 );
 
 // get new migrator instance
@@ -92,6 +93,7 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 
 #### 17-09-2014
 - Added DBTestCase class to be used with the migrator when testing database.
+- Added Class Naming Style to Migrator options. Choose between CamelCase and Underscore.
 
 #### 16-09-2014
 - Added optional $levels parameter to `migrateUp( )` and `migrateDown( )` in Migrator.

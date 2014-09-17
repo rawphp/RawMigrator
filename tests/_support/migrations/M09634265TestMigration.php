@@ -48,7 +48,7 @@ use RawPHP\RawDatabase\IDatabase;
  * @license   http://rawphp.org/license.txt MIT
  * @link      http://rawphp.org/
  */
-class M_09634265_test_migration extends Migration
+class M09634265TestMigration extends Migration
 {
     protected $table = 'migrate_3';
     protected $column = 'table_text';

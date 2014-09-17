@@ -60,7 +60,7 @@ class Migrator extends Component implements IMigrator
     public $classPrefix         = 'M_';
     public $migrationTable      = 'migrations';
     public $migrationNamespace  = '';
-    
+    public $migrationClassStyle = self::STYLE_CAMEL_CASE;
     public $db                  = NULL;
     
     public $levels              = self::MIGRATE_ALL;
@@ -120,6 +120,10 @@ class Migrator extends Component implements IMigrator
                     $this->migrationTable = $value;
                     break;
                 
+                case 'class_name_style':
+                    $this->migrationClassStyle = $value;
+                    break;
+                
                 case 'overwrite':
                     $this->overwrite = $value;
                     break;
@@ -160,9 +164,18 @@ class Migrator extends Component implements IMigrator
     {
         $date = new \DateTime();
         
-        $className  = $this->classPrefix;
-        $className .= substr( $date->format( 'U' ), 2 );
-        $className .= '_' . $this->migrationClass;
+        $tStamp = substr( $date->format( 'U' ), 2 );
+        
+        if ( self::STYLE_CAMEL_CASE !== $this->migrationClassStyle )
+        {
+            $parts = preg_split('/(?=[A-Z])/', $this->migrationClass, -1, PREG_SPLIT_NO_EMPTY);
+            
+            $className = $this->classPrefix . '_' . $tStamp . '_' . implode( '_', $parts );
+        }
+        else
+        {
+            $className = $this->classPrefix . $tStamp . $this->migrationClass;
+        }
         
         $template = $this->getMigrationTemplate( $className );
         
@@ -659,12 +672,17 @@ class Migrator extends Component implements IMigrator
         return strcmp( $a, $b );
     }
     
+    const STYLE_CAMEL_CASE   = 'camel_case';
+    const STYLE_UNDERSCORE   = 'underscore';
+    
+    // actions
     const ON_INIT_ACTION                    = 'on_init_action';
     const ON_CREATE_MIGRATION_ACTION        = 'on_create_migration_action';
     const ON_CREATE_MIGRATION_TABLE_ACTION  = 'on_create_migration_table';
     const ON_MIGRATE_UP_ACTION              = 'on_migrate_up_action';
     const ON_MIGRATE_DOWN_ACTION            = 'on_migrate_down_action';
     
+    // filters
     const ON_CREATE_MIGRATION_FILTER        = 'on_create_migration_filter';
     const ON_GET_MIGRATION_TEMPLATE_FILTER  = 'on_get_migration_template_filter';
     const ON_GET_MIGRATIONS_FILTER          = 'on_get_migrations_filter';
