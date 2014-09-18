@@ -35,7 +35,7 @@
 
 namespace RawPHP\RawMigrator;
 
-use RawPHP\RawBase\Models\Model;
+use RawPHP\RawBase\Model;
 use RawPHP\RawDatabase\IDatabase;
 
 /**
