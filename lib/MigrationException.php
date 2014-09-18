@@ -35,7 +35,7 @@
 
 namespace RawPHP\RawLog;
 
-use RawPHP\RawBase\Exceptions\RawException;
+use RawPHP\RawBase\RawException;
 
 /**
  * Exception thrown when there are problems with the migration.

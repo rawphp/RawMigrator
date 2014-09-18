@@ -37,7 +37,6 @@ namespace RawPHP\RawMigrator\Test;
 
 use RawPHP\RawDatabase\IDatabase;
 use RawPHP\RawMigrator\Migrator;
-use PHPUnit_Framework_TestCase;
 
 /**
  * Test Case used with database migration testing.
@@ -49,7 +48,7 @@ use PHPUnit_Framework_TestCase;
  * @license   http://rawphp.org/license.txt MIT
  * @link      http://rawphp.org/
  */
-class DBTestCase extends PHPUnit_Framework_TestCase
+class DBTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var IDatabase
