@@ -58,7 +58,9 @@ $config[ 'test_db' ][ 'db_host' ] = 'localhost';
 $config[ 'migration' ][ 'migration_path' ]   = dirname( dirname( __FILE__ ) ) . DS . '_output' . DS;
 $config[ 'migration' ][ 'namespace' ]        = 'RawPHP\\RawMigrator\\Migrations';
 $config[ 'migration' ][ 'migration_table' ]  = 'migrations';
-$config[ 'migration' ][ 'class_name_style' ] = Migrator::STYLE_CAMEL_CASE; // Migrator::STYLE_UNDERSCORE
+
+// Migrator::STYLE_CAMEL_CASE or Migrator::STYLE_UNDERSCORE
+$config[ 'migration' ][ 'class_name_style' ] = Migrator::STYLE_CAMEL_CASE;
 $config[ 'migration' ][ 'class_prefix' ]     = 'M';
 $config[ 'migration' ][ 'overwrite' ]        = FALSE;
 

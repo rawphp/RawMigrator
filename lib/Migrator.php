@@ -565,7 +565,8 @@ class Migrator extends Component implements IMigrator
                         // delete migration record
                         if ( FALSE === $this->_deleteMigrationRecord( $class ) )
                         {
-                            throw new RawException( 'Failed to delete migration record: ' . $class );
+                            throw new RawException( 
+                                    'Failed to delete migration record: ' . $class );
                             
                             $this->db->rollbackTransaction();
                         }

@@ -91,6 +91,9 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 
 ## Changelog
 
+#### 20-09-2014
+- Added the migration command.
+
 #### 18-09-2014
 - Updated to work with the latest rawphp/rawbase package.
 

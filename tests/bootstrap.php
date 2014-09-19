@@ -23,6 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
+ * PHP version 5.4
+ * 
  * @category  PHP
  * @package   RawPHP/RawMigrator
  * @author    Tom Kaczohca <tom@rawphp.org>
@@ -34,8 +36,10 @@
 use RawPHP\RawDatabase\Database;
 
 defined( 'DS' )                  || define( 'DS', DIRECTORY_SEPARATOR );
-defined( 'SUPPORT_DIR' )         || define( 'SUPPORT_DIR', dirname( __FILE__ ) . DS . '_support' . DS );
-defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR . 'migrations' . DS );
+defined( 'SUPPORT_DIR' )         || define( 'SUPPORT_DIR', dirname( __FILE__ ) 
+                                            . DS . '_support' . DS );
+defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR 
+                                            . 'migrations' . DS );
 
 require_once dirname( dirname( __FILE__ ) ) . DS . 'vendor' . DS . 'autoload.php';
 
