@@ -78,6 +78,11 @@ $migrator->migrateUp( );
 // migrate database down 1 level
 $migrator->levels = 1;
 $migrator->migrateDown( );
+
+
+// NOTE: If using the RawConsole package to run these migrations, you need to
+// add 'RawPHP\\RawMigrator\\Commands\\' namespace to the console configuration file.
+
 ```
 
 Further usage documentation will be forthcoming.
