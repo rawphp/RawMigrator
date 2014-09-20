@@ -39,6 +39,8 @@ use RawPHP\RawYaml\Yaml;
 defined( 'DS' )                  || define( 'DS', DIRECTORY_SEPARATOR );
 defined( 'SUPPORT_DIR' )         || define( 'SUPPORT_DIR', dirname( __FILE__ ) 
                                             . DS . '_support' . DS );
+defined( 'OUTPUT_DIR' )          || define( 'OUTPUT_DIR', dirname( __FILE__ ) 
+                                            . DS . '_output' . DS );
 defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR 
                                             . 'migrations' . DS );
 
