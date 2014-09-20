@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "rawphp/raw-base": "0.*@dev",
-        "rawphp/raw-database": "0.*@dev"
+        "rawphp/raw-database": "0.*@dev",
+        "rawphp/raw-yaml": "0.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.5",

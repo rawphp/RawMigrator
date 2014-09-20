@@ -98,9 +98,12 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 
 #### 20-09-2014
 - Added the migration command.
+- Replaced php array configuration with yaml
+- Fixed MigrationException namespace.
 
 #### 18-09-2014
 - Updated to work with the latest rawphp/rawbase package.
+- Replaced php array configuration with yaml
 
 #### 17-09-2014
 - Added DBTestCase class to be used with the migrator when testing database.

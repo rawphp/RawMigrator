@@ -33,7 +33,7 @@
  * @link      http://rawphp.org/
  */
 
-namespace RawPHP\RawLog;
+namespace RawPHP\RawMigrator;
 
 use RawPHP\RawBase\RawException;
 

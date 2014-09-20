@@ -34,6 +34,7 @@
  */
 
 use RawPHP\RawDatabase\Database;
+use RawPHP\RawYaml\Yaml;
 
 defined( 'DS' )                  || define( 'DS', DIRECTORY_SEPARATOR );
 defined( 'SUPPORT_DIR' )         || define( 'SUPPORT_DIR', dirname( __FILE__ ) 
@@ -43,18 +44,54 @@ defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR
 
 require_once dirname( dirname( __FILE__ ) ) . DS . 'vendor' . DS . 'autoload.php';
 
-$config = include_once SUPPORT_DIR . 'config.php';
-        
+// get config
+$config = ( new Yaml( ) )->load( SUPPORT_DIR . 'config.yml' );
+$config[ 'migration' ][ 'migration_path' ] = fixPath( $config[ 'migration' ][ 'migration_path' ] );
+
 $db = new Database( );
 $db->init( $config[ 'test_db' ] );
 
 // load migration files
-foreach ( scandir( TEST_MIGRATIONS_DIR ) as $file )
+loadMigrationFiles( );
+
+echo PHP_EOL . PHP_EOL . '************* BOOTSTRAP ********************' . PHP_EOL . PHP_EOL;
+
+
+/**
+ * Helper function to load migration files.
+ */
+function loadMigrationFiles( )
 {
-    if ( '.' !== $file && '..' !== $file )
+    foreach ( scandir( TEST_MIGRATIONS_DIR ) as $file )
     {
-        include_once TEST_MIGRATIONS_DIR . $file;
+        if ( '.' !== $file && '..' !== $file )
+        {
+            include_once TEST_MIGRATIONS_DIR . $file;
+        }
     }
 }
 
-echo PHP_EOL . PHP_EOL . '************* BOOTSTRAP ********************' . PHP_EOL . PHP_EOL;
+/**
+ * Helper function to cleanup migration path in configuration.
+ * 
+ * @param string $path migration path
+ * 
+ * @return string migration path
+ */
+function fixPath( $path )
+{
+    // fix path
+    if ( FALSE !== strstr( $path, '%OUTPUT_DIR%' ) )
+    {
+        $path = str_replace( '%OUTPUT_DIR%', OUTPUT_DIR, $path );
+    }
+
+    $len = strlen( $path );
+
+    if ( DS !== $path[ $len - 1 ] )
+    {
+        $path .= DS;
+    }
+    
+    return $path;
+}
