@@ -23,7 +23,7 @@
 # PHP version 5.4
 # 
 # @category  PHP
-# @package   RawPHP/RawDatabase
+# @package   RawPHP/RawMigrator
 # @author    Tom Kaczohca <tom@rawphp.org>
 # @copyright 2014 Tom Kaczocha
 # @license   http://rawphp.org/license.txt MIT
@@ -37,7 +37,7 @@
 ################################################################################ 
 
 test_db:
-    db_name: raw_database_test
+    db_name: raw_migrator_test
     db_user: root
     db_pass: 
     db_host: localhost
