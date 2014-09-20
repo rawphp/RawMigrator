@@ -53,6 +53,6 @@ migration:
     migration_path:   %OUTPUT_DIR%
     namespace:        RawPHP\RawMigrator\Migrations
     migration_table:  migrations
-    class_name_style: Migrator::STYLE_CAMEL_CASE
+    class_name_style: camel_case
     class_prefix:     M
     overwrite:        FALSE
