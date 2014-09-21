@@ -97,6 +97,9 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 ## Changelog
 
 #### 20-09-2014
+- Changed 'namespace' to 'migration_namespace' migrator configuration.
+
+#### 20-09-2014
 - Added the migration command.
 - Replaced php array configuration with yaml
 - Fixed MigrationException namespace.

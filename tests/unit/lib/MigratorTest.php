@@ -145,6 +145,8 @@ class MigratorTest extends DBTestCase
      */
     public function testGetNewMigrations()
     {
+        $this->assertEquals( Migrator::MIGRATE_ALL, self::$migrator->levels );
+        
         self::$migrator->migrateUp( );
         
         $migrations = self::$migrator->getNewMigrations( );

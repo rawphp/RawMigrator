@@ -37,10 +37,10 @@
 ################################################################################ 
 
 test_db:
-    db_name: raw_migrator_test
-    db_user: root
-    db_pass: 
-    db_host: localhost
+    db_name:                            raw_migrator_test
+    db_user:                            root
+    db_pass:                            
+    db_host:                            localhost
 
 ################################################################################
 # Database Migration
@@ -50,9 +50,10 @@ test_db:
 ################################################################################ 
 
 migration:
-    migration_path:   %OUTPUT_DIR%
-    namespace:        RawPHP\RawMigrator\Migrations
-    migration_table:  migrations
-    class_name_style: camel_case
-    class_prefix:     M
-    overwrite:        FALSE
+    debug:                              FALSE
+    migration_path:                     %OUTPUT_DIR%
+    migration_namespace:                RawPHP\RawMigrator\Migrations\
+    migration_table:                    migrations
+    class_name_style:                   camel_case
+    class_prefix:                       M
+    overwrite:                          FALSE

@@ -38,7 +38,7 @@ namespace RawPHP\RawMigrator;
 use RawPHP\RawBase\Component;
 use RawPHP\RawMigrator\IMigrator;
 use RawPHP\RawDatabase\IDatabase;
-use RawPHP\RawLog\MigrationException;
+use RawPHP\RawMigrator\MigrationException;
 
 /**
  * This class handles database migration.
@@ -108,7 +108,7 @@ class Migrator extends Component implements IMigrator
                     $this->migrationPath = $value;
                     break;
                 
-                case 'namespace':
+                case 'migration_namespace':
                     $this->migrationNamespace = $value;
                     break;
                 
@@ -359,7 +359,7 @@ class Migrator extends Component implements IMigrator
         foreach( $migrations as $migration )
         {
             $done = FALSE;
-            $migToFind = $this->migrationNamespace . '\\' . $migration;
+            $migToFind = $this->migrationNamespace . $migration;
             
             foreach( $applied as $mig )
             {
