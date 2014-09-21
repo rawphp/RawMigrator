@@ -1,5 +1,6 @@
-# RawMigrator - A Simple Database Migration Service for PHP Applications [![Build Status](https://travis-ci.org/rawphp/RawMigrator.svg?branch=master)](https://travis-ci.org/rawphp/RawMigrator)
+# RawMigrator - A Simple Database Migration Service for PHP Applications
 
+[![Build Status](https://travis-ci.org/rawphp/RawMigrator.svg?branch=master)](https://travis-ci.org/rawphp/RawMigrator) [![Coverage Status](https://coveralls.io/repos/rawphp/RawMigrator/badge.png?branch=master)](https://coveralls.io/r/rawphp/RawMigrator?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/rawphp/raw-migrator/v/stable.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![Total Downloads](https://poser.pugx.org/rawphp/raw-migrator/downloads.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![Latest Unstable Version](https://poser.pugx.org/rawphp/raw-migrator/v/unstable.svg)](https://packagist.org/packages/rawphp/raw-migrator) [![License](https://poser.pugx.org/rawphp/raw-migrator/license.svg)](https://packagist.org/packages/rawphp/raw-migrator)
 
 ## Package Features
@@ -95,6 +96,9 @@ This package is licensed under the [MIT](https://github.com/rawphp/RawMigrator/b
 Please submit bug reports, suggestions and pull requests to the [GitHub issue tracker](https://github.com/rawphp/RawMigrator/issues).
 
 ## Changelog
+
+#### 22-09-2014
+- Updated for PHP 5.3.
 
 #### 20-09-2014
 - Changed 'namespace' to 'migration_namespace' migrator configuration.

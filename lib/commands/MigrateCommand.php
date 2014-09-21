@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * PHP version 5.4
+ * PHP version 5.3
  * 
  * @category  PHP
  * @package   RawPHP/RawMigrator/Commands
@@ -35,11 +35,11 @@
 
 namespace RawPHP\RawMigrator\Commands;
 
-use RawPHP\CR;
 use RawPHP\RawConsole\Command;
 use RawPHP\RawConsole\Option;
 use RawPHP\RawConsole\Type;
 use RawPHP\RawMigrator\Migrator;
+use RawPHP\RawMigrator\MigrationException;
 
 /**
  * The migrate command for RawConsole.
@@ -61,10 +61,14 @@ class MigrateCommand extends Command
     /**
      * Configures the command.
      * 
+     * @global Migrator $migrator the migrator
+     * 
      * @action ON_CONFIGURE_MIGRATE_CMD_ACTION
      */
     public function configure( )
     {
+        global $migrator;
+        
         $this->name          = 'Migrate';
         $this->version       = '1.0.0';
         $this->copyright     = '(c) 2014 RawPHP.org';
@@ -91,6 +95,8 @@ class MigrateCommand extends Command
         
         $this->options[] = $option;
         
+        $this->migrator = $migrator;
+        
         $this->doAction( self::ON_CONFIGURE_MIGRATE_CMD_ACTION );
     }
     
@@ -99,18 +105,18 @@ class MigrateCommand extends Command
      * 
      * @action ON_BEFORE_MIGRATE_CMD_EXECUTE_ACTION
      * @action ON_AFTER_MIGRATE_CMD_EXECUTE_ACTION
+     * 
+     * @throws MigrationException if the migrator hasn't been set
      */
     public function execute( )
     {
         $this->doAction( self::ON_BEFORE_MIGRATE_CMD_EXECUTE_ACTION );
         
-        $this->migrator = new Migrator( CR::app( )->db );
+        if ( NULL === $this->migrator )
+        {
+            throw new MigrationException( 'You must set the migrator before executing this command.' );
+        }
         
-        $config = CR::app( )->config;
-        
-        $this->migrator->init( $config[ 'migration' ] );
-        
-        $action    = self::getOption( $this, 'action' )->value;
         $verbose   = self::getOption( $this, 'verbose' )->value;
         
         $direction = self::getOption( $this, 'direction' )->value;

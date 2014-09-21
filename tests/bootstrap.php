@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * PHP version 5.4
+ * PHP version 5.3
  * 
  * @category  PHP
  * @package   RawPHP/RawMigrator
@@ -47,7 +47,8 @@ defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR
 require_once dirname( dirname( __FILE__ ) ) . DS . 'vendor' . DS . 'autoload.php';
 
 // get config
-$config = ( new Yaml( ) )->load( SUPPORT_DIR . 'config.yml' );
+$yaml = new Yaml( );
+$config = $yaml->load( SUPPORT_DIR . 'config.yml' );
 $config[ 'migration' ][ 'migration_path' ] = fixPath( $config[ 'migration' ][ 'migration_path' ] );
 
 $db = new Database( );
