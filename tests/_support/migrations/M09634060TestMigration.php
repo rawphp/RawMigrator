@@ -70,7 +70,7 @@ class M09634060TestMigration extends Migration
     /**
      * Drop the table.
      * 
-     * @param Database $db the IDatabase instance
+     * @param IDatabase $db the IDatabase instance
      */
     public function migrateDown( IDatabase $db )
     {

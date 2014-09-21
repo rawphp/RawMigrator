@@ -33,7 +33,7 @@
  * @link      http://rawphp.org/
  */
 
-use RawPHP\RawDatabase\Database;
+use RawPHP\RawDatabase\Mysql;
 use RawPHP\RawYaml\Yaml;
 
 defined( 'DS' )                  || define( 'DS', DIRECTORY_SEPARATOR );
@@ -51,7 +51,7 @@ $yaml = new Yaml( );
 $config = $yaml->load( SUPPORT_DIR . 'config.yml' );
 $config[ 'migration' ][ 'migration_path' ] = fixPath( $config[ 'migration' ][ 'migration_path' ] );
 
-$db = new Database( );
+$db = new Mysql( );
 $db->init( $config[ 'test_db' ] );
 
 // load migration files
