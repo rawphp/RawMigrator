@@ -99,6 +99,7 @@ Please submit bug reports, suggestions and pull requests to the [GitHub issue tr
 
 #### 22-09-2014
 - Updated for PHP 5.3.
+- Added 'namespaces' configuration option for listing migration namespaces.
 
 #### 20-09-2014
 - Changed 'namespace' to 'migration_namespace' migrator configuration.

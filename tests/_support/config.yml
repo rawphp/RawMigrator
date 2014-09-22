@@ -52,8 +52,11 @@ test_db:
 migration:
     debug:                              FALSE
     migration_path:                     %OUTPUT_DIR%
-    migration_namespace:                RawPHP\RawMigrator\Migrations\
+    migration_namespace:                RawPHP\RawMigrator\Migrations
     migration_table:                    migrations
     class_name_style:                   camel_case
     class_prefix:                       M
     overwrite:                          FALSE
+    namespaces:
+        - RawPHP\RawMigrator\Migrations\
+        - RawPHP\RawMigrator\TestMigrations\

@@ -62,6 +62,7 @@ class Migrator extends Component implements IMigrator
     public $migrationNamespace  = '';
     public $migrationClassStyle = self::STYLE_CAMEL_CASE;
     public $db                  = NULL;
+    public $namespaces          = array( );
     
     public $levels              = self::MIGRATE_ALL;
     public $migrationClass      = NULL;
@@ -110,6 +111,10 @@ class Migrator extends Component implements IMigrator
                 
                 case 'migration_namespace':
                     $this->migrationNamespace = $value;
+                    break;
+                
+                case 'namespaces':
+                    $this->namespaces = $value;
                     break;
                 
                 case 'class_prefix':
@@ -359,7 +364,19 @@ class Migrator extends Component implements IMigrator
         foreach( $migrations as $migration )
         {
             $done = FALSE;
-            $migToFind = $this->migrationNamespace . $migration;
+            $migToFind = NULL;
+            
+            foreach( $this->namespaces as $ns )
+            {
+                $cls = $ns . $migration;
+                
+                if ( class_exists( $cls ) )
+                {
+                    $migToFind = $cls;
+                    
+                    break;
+                }
+            }
             
             foreach( $applied as $mig )
             {
@@ -435,13 +452,24 @@ class Migrator extends Component implements IMigrator
             
             if ( !class_exists( $class ) )
             {
-                $cls = 'RawPHP\\RawMigrator\\Migrations\\' . $newMigrations[ $i ];
-                
-                if ( class_exists( $cls ) )
+                if ( !array_search( 'RawPHP\\RawMigrator\\Migrations\\', $this->namespaces, TRUE ) )
                 {
-                    $class = $cls;
+                    $this->namespaces[] = 'RawPHP\\RawMigrator\\Migrations\\';
                 }
-                else
+                
+                foreach( $this->namespaces as $ns )
+                {
+                    $cls = $ns . $newMigrations[ $i ];
+                    
+                    if ( class_exists( $cls ) )
+                    {
+                        $class = $cls;
+                        
+                        break;
+                    }
+                }
+                
+                if ( NULL === $class )
                 {
                     throw new MigrationException( 'Migration class: ' . $class . ' - not found' );
                 }

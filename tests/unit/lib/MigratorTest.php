@@ -117,7 +117,7 @@ class MigratorTest extends DBTestCase
         
         $files = scandir( TEST_MIGRATIONS_DIR );
         
-        $this->assertEquals( 6, count( $files ) );
+        $this->assertEquals( 7, count( $files ) );
     }
     
     /**
@@ -137,7 +137,7 @@ class MigratorTest extends DBTestCase
     {
         $migrations = self::$migrator->getMigrations();
         
-        $this->assertEquals( 3, count( $migrations ) );
+        $this->assertEquals( 4, count( $migrations ) );
     }
     
     /**
@@ -164,6 +164,7 @@ class MigratorTest extends DBTestCase
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_3' ) );
+        $this->assertTrue( self::$db->tableExists( 'migrate_4' ) );
     }
     
     /**
@@ -248,7 +249,8 @@ class MigratorTest extends DBTestCase
         
         $this->assertTrue( self::$db->tableExists( 'migrate_1' ) );
         $this->assertTrue( self::$db->tableExists( 'migrate_2' ) );
-        $this->assertFalse( self::$db->tableExists( 'migrate_3' ) );
+        $this->assertTrue( self::$db->tableExists( 'migrate_3' ) );
+        $this->assertFalse( self::$db->tableExists( 'migrate_4' ) );
     }
     
     /**
@@ -313,10 +315,10 @@ class MigratorTest extends DBTestCase
         $files = scandir( TEST_MIGRATIONS_DIR );
         
         $existing = array(
-            'empty',
             'M09634060TestMigration.php',
             'M09634217TestMigration.php',
             'M09634265TestMigration.php',
+            'M09634270TestMigration.php',
         );
         
         foreach( $files as $file )
