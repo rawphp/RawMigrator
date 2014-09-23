@@ -72,7 +72,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
         
         if ( NULL === $config )
         {
-            throw new RawException( '$GLOBAL $config must be set point' );
+            throw new RawException( '$GLOBAL $config must be set before this point' );
         }
         
         if ( NULL === $db )
