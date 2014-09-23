@@ -37,6 +37,7 @@ namespace RawPHP\RawMigrator\Test;
 
 use RawPHP\RawDatabase\IDatabase;
 use RawPHP\RawMigrator\Migrator;
+use RawPHP\RawBase\Exceptions\RawException;
 
 /**
  * Test Case used with database migration testing.
@@ -68,11 +69,20 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         global $config, $db;
+        
+        if ( NULL === $config )
+        {
+            throw new RawException( '$GLOBAL $config must be set point' );
+        }
+        
+        if ( NULL === $db )
+        {
+            throw new RawException( '$GLOBAL $db must be set before this point' );
+        }
+        
         self::$db = $db;
         
-        parent::setUpBeforeClass();
-        
-        self::$migrator = new Migrator( $db );
+        self::$migrator = new Migrator( self::$db );
         self::$migrator->init( $config[ 'migration' ] );
         self::$migrator->verbose = TRUE;
     }
