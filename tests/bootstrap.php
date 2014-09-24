@@ -46,6 +46,8 @@ defined( 'TEST_MIGRATIONS_DIR' ) || define( 'TEST_MIGRATIONS_DIR', SUPPORT_DIR
 
 require_once dirname( dirname( __FILE__ ) ) . DS . 'vendor' . DS . 'autoload.php';
 
+global $config, $db;
+
 // get config
 $yaml = new Yaml( );
 $config = $yaml->load( SUPPORT_DIR . 'config.yml' );

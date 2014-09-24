@@ -51,26 +51,30 @@ use RawPHP\RawMigrator\Test\DBTestCase;
  */
 class MigratorTest extends DBTestCase
 {
+    protected static $db = NULL;
+    
     /**
      * Setup before the test suite run.
      * 
-     * @global IDatabase $db     database instance
-     * @global array     $config migrator configuration array
+     * @global IDatabase $db database
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass( )
     {
-        parent::setUpBeforeClass();
+        global $db;
+        
+        self::$db = $db;
+        
+        parent::setUpBeforeClass( );
         
         self::$db->dropTable( 'migrations' );
         self::$db->dropTable( 'migrate_1' );
         self::$db->dropTable( 'migrate_2' );
         self::$db->dropTable( 'migrate_3' );
-        
     }
     /**
      * Setup before each test.
      */
-    public function setUp()
+    public function setUp( )
     {
         global $config;
         
@@ -84,7 +88,7 @@ class MigratorTest extends DBTestCase
     /**
      * Cleanup after each test.
      */
-    protected function tearDown()
+    protected function tearDown( )
     {
         self::$db->dropTable( 'migrate_1' );
         self::$db->dropTable( 'migrate_2' );

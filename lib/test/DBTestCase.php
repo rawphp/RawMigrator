@@ -42,6 +42,16 @@ use RawPHP\RawBase\Exceptions\RawException;
 /**
  * Test Case used with database migration testing.
  * 
+ * This class depends on a global IMigrator instance. It must be defined in
+ * the bootstrap as
+ * 
+ * <pre>
+ * global $migrator;
+ * 
+ * $migrator = new Migrator( $database );
+ * $migrator->init( $config );
+ * </pre>
+ * 
  * @category  PHP
  * @package   RawPHP/RawMigrator/Test
  * @author    Tom Kaczohca <tom@rawphp.org>
@@ -51,10 +61,6 @@ use RawPHP\RawBase\Exceptions\RawException;
  */
 class DBTestCase extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var IDatabase
-     */
-    public static $db           = NULL;
     /**
      * @var Migrator
      */
@@ -66,31 +72,17 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
      * @global array     $config configuration array
      * @global IDatabase $db     the database instance
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass( )
     {
-        global $config, $db;
+        global $migrator;
         
-        if ( NULL === $config )
-        {
-            throw new RawException( '$GLOBAL $config must be set before this point' );
-        }
-        
-        if ( NULL === $db )
-        {
-            throw new RawException( '$GLOBAL $db must be set before this point' );
-        }
-        
-        self::$db = $db;
-        
-        self::$migrator = new Migrator( self::$db );
-        self::$migrator->init( $config[ 'migration' ] );
-        self::$migrator->verbose = TRUE;
+        self::$migrator = $migrator;
     }
     
     /**
      * Setup for a test.
      */
-    protected function setUp()
+    protected function setUp( )
     {
         parent::setUp( );
         
@@ -100,7 +92,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Cleanup after a test
      */
-    protected function tearDown()
+    protected function tearDown( )
     {
         parent::tearDown( );
         
